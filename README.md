@@ -4,18 +4,20 @@
 
 > This is a fork of [JamesStubbsEng/TS-808-Ultra](https://github.com/JamesStubbsEng/TS-808-Ultra) (GPL-3.0).
 > The circuit model and the desktop plugin are the original author's work.
-> **My work in this fork:** the Daisy Seed port, real-time optimization, and measurements.
+> **My work in this fork:** the Daisy Seed port (rebuilt step by step), my own oversampling, real-time optimization, and measurements.
 
 ## Status
 
-| Stage | State |
-|---|---|
-| JUCE plugin builds and runs | ✅ Done |
-| Ported to Daisy Seed, audio passes through | ✅ Done |
-| CPU load measurement | ⏳ In progress |
-| Optimization (heat / latency) | 🔜 Planned |
-| Hardware controls (drive / tone / level pots) | 🔧 Drive pot broken — fixing |
-| Documentation & demo | 🔜 Planned |
+The first Daisy port worked (audio passed through), but that code was lost.
+I'm **rebuilding the port step by step**, committing and measuring CPU load at each stage so the cost of every block is visible.
+
+| Step | What | State |
+|---|---|---|
+| 1 | Daisy pass-through (baseline CPU load) | ⏳ Next |
+| 2 | Tone stage (bilinear transform) | 🔜 |
+| 3 | WDF clipping stage with [chowdsp_wdf](https://github.com/Chowdhury-DSP/chowdsp_wdf) | 🔜 |
+| 4 | Oversampling (own implementation) | 🔜 |
+| 5 | Hardware controls (drive / tone / level) — drive pot currently broken | 🔜 |
 
 ## Daisy port
 
@@ -23,32 +25,38 @@
 - Electro-Smith Daisy Seed (STM32H750, Cortex-M7 @ 480 MHz)
 - <!-- TODO: list your pots, jacks, footswitch, board/enclosure -->
 
-### What changed from the desktop plugin
-<!-- TODO: what you removed or replaced from JUCE, how the audio callback is structured -->
+### Approach
+- **WDF:** uses [chowdsp_wdf](https://github.com/Chowdhury-DSP/chowdsp_wdf), a template-based successor to the WDF library used by the original plugin, chosen for embedded performance.
+- **Oversampling:** written by me for this port.
+- <!-- TODO: what you removed or replaced from JUCE, how the audio callback is structured -->
 
-### Known issues
-- The chip runs hot and there is slight latency. Root cause not measured yet — see *Measurements*.
-- Drive pot is broken, so drive is currently fixed in code.
+### Known issues (first port)
+- The chip ran hot and there was slight latency. To be measured during the rebuild.
+- Drive pot is broken.
 
 ## Measurements
-<!-- TODO: fill with your own numbers -->
+<!-- TODO: fill with your own numbers after each step -->
 
-| Block size | Sample rate | CPU load | Notes |
-|---|---|---|---|
-|  | 48 kHz |  |  |
+| Step | Block size | Sample rate | CPU load | Notes |
+|---|---|---|---|---|
+| 1 Pass-through |  | 48 kHz |  |  |
+| 2 + Tone |  | 48 kHz |  |  |
+| 3 + WDF clipping |  | 48 kHz |  |  |
+| 4 + Oversampling |  | 48 kHz |  |  |
 
 ## Roadmap
-- [ ] Measure CPU load per audio block and find the bottleneck (WDF tree / diode solver / oversampling)
-- [ ] Optimize: float-only math, cheaper diode solver, smaller oversampling factor
+- [ ] Rebuild the port (steps 1–5 above)
+- [ ] Optimize: float-only math, diode model options, oversampling factor, real-time safety
 - [ ] Compare desktop vs Daisy output (waveform / spectrum)
-- [ ] Fix the drive pot and add hardware controls
-- [ ] Rewrite the WDF engine in modern C++ (v2) and compare with v1
+- [ ] Refactor my own code with modern C++
 
 ## Build
 <!-- TODO: how to build and flash (toolchain, make / make program-dfu) -->
 
-## License
-GPL-3.0, same as the original project.
+## Credits & License
+- Original plugin and circuit model: [JamesStubbsEng/TS-808-Ultra](https://github.com/JamesStubbsEng/TS-808-Ultra) (GPL-3.0)
+- WDF library: [chowdsp_wdf](https://github.com/Chowdhury-DSP/chowdsp_wdf) <!-- TODO: check and note its license -->
+- This fork is released under GPL-3.0.
 
 ---
 
