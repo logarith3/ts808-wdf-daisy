@@ -1,6 +1,6 @@
 # TS808 on Daisy Seed
 
-**A Wave Digital Filter (WDF) model of the Ibanez Tube Screamer 808, ported from a JUCE plugin to the [Daisy Seed](https://electro-smith.com/products/daisy-seed) (ARM Cortex-M7) and optimized to run in real time on embedded hardware.**
+**A Wave Digital Filter (WDF) model of the Ibanez Tube Screamer 808, ported from a JUCE plugin to the Daisy Seed3 (ARM Cortex-M7) and optimized to run in real time on embedded hardware.**
 
 > This is a fork of [JamesStubbsEng/TS-808-Ultra](https://github.com/JamesStubbsEng/TS-808-Ultra) (GPL-3.0).
 > The circuit model and the desktop plugin are the original author's work.
@@ -22,7 +22,7 @@ I'm **rebuilding the port step by step**, committing and measuring CPU load at e
 ## Daisy port
 
 ### Hardware
-- Electro-Smith Daisy Seed (STM32H750, Cortex-M7 @ 480 MHz)
+- Electro-Smith **Daisy Seed3** (STM32H750 Cortex-M7, new audio codec up to 32-bit / 192 kHz, USB-C) <!-- TODO: 1MB or 65MB version? -->
 - <!-- TODO: list your pots, jacks, footswitch, board/enclosure -->
 
 ### Approach
@@ -55,7 +55,7 @@ I'm **rebuilding the port step by step**, committing and measuring CPU load at e
 
 ## Credits & License
 - Original plugin and circuit model: [JamesStubbsEng/TS-808-Ultra](https://github.com/JamesStubbsEng/TS-808-Ultra) (GPL-3.0)
-- WDF library: [chowdsp_wdf](https://github.com/Chowdhury-DSP/chowdsp_wdf) <!-- TODO: check and note its license -->
+- WDF library: [chowdsp_wdf](https://github.com/Chowdhury-DSP/chowdsp_wdf) by Jatin Chowdhury (BSD 3-Clause)
 - This fork is released under GPL-3.0.
 
 ---
